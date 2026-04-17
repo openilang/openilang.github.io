@@ -31,6 +31,8 @@ export default defineConfig({
           enabled: true
       },
 
+      prerenderEnvironment: 'node',
+
       imageService: "cloudflare"
   }),
 });
