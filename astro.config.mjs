@@ -1,11 +1,17 @@
 // @ts-check
-import { defineConfig } from 'astro/config';
+import { defineConfig, sessionDrivers } from 'astro/config';
 import starlight from '@astrojs/starlight';
 
 import cloudflare from '@astrojs/cloudflare';
 
 // https://astro.build/config
 export default defineConfig({
+    session: {
+            // Starlight does not require KV-backed sessions by default.
+            // This prevents auto-injecting a KV binding without an `id` into generated Wrangler config.
+            driver: sessionDrivers.fsLite(),
+    },
+
   integrations: [
       starlight({
           title: 'OpenIlang',
@@ -27,6 +33,13 @@ export default defineConfig({
 	],
 
   adapter: cloudflare({
+      config: {
+          // Wrangler expects `triggers` to contain only allowed keys.
+          triggers: {
+              crons: [],
+          },
+      },
+
       platformProxy: {
           enabled: true
       },

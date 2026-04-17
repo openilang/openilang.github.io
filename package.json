@@ -5,11 +5,11 @@
   "scripts": {
     "dev": "astro dev",
     "start": "astro dev",
-    "build": "astro build",
-    "preview": "astro build && wrangler pages dev",
+    "build": "astro build && node scripts/normalize-wrangler-config.mjs",
+    "preview": "npm run build && wrangler pages dev",
     "astro": "astro",
     "generate-types": "wrangler types",
-    "deploy": "astro build && wrangler pages deploy",
+    "deploy": "npm run build && wrangler pages deploy",
     "cf-typegen": "wrangler types"
   },
   "dependencies": {
