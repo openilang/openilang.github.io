@@ -21,6 +21,17 @@ for (const path of CONFIG_PATHS) {
     delete config.triggers;
   }
 
+  // In Cloudflare Pages, ASSETS is a reserved implicit binding. If the generated
+  // config defines it explicitly, deployment fails with a reserved-name error.
+  if (
+    config.pages_build_output_dir &&
+    config.assets &&
+    typeof config.assets === 'object' &&
+    config.assets.binding === 'ASSETS'
+  ) {
+    delete config.assets;
+  }
+
   // Keep only valid KV namespace entries with explicit IDs.
   if (Array.isArray(config.kv_namespaces)) {
     config.kv_namespaces = config.kv_namespaces.filter(
