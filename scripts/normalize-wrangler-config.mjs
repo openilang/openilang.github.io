@@ -32,6 +32,13 @@ for (const path of CONFIG_PATHS) {
     delete config.assets;
   }
 
+  // Pages projects cannot include Worker entrypoint keys.
+  if (config.pages_build_output_dir) {
+    delete config.main;
+    delete config.no_bundle;
+    delete config.rules;
+  }
+
   // Keep only valid KV namespace entries with explicit IDs.
   if (Array.isArray(config.kv_namespaces)) {
     config.kv_namespaces = config.kv_namespaces.filter(
